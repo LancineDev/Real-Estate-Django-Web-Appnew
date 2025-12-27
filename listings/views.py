@@ -20,8 +20,11 @@ def index(request):
 def listing(request, listing_id):
   listing = get_object_or_404(Listing, pk=listing_id)
 
+  related_listings = Listing.objects.order_by('-list_date').filter(is_published=True).exclude(id=listing_id)[:3]
+
   context = {
-    'listing': listing
+    'listing': listing,
+    'related_listings': related_listings
   }
 
   return render(request, 'listings/listing.html', context)

@@ -23,10 +23,10 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'index' %}">Accueil</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="{% url 'listings' %}">Listings</a>
+            <a href="{% url 'listings' %}">Annonces</a>
           </li>
           <li class="breadcrumb-item active">{{ listing.title }}</li>
         </ol>
@@ -40,53 +40,46 @@
   <!-- Listing -->
   <section id="listing" class="py-4">
     <div class="container">
-      <a href="{% url 'listings' %}" class="btn btn-light mb-4">Back To Listings</a>
+      <a href="{% url 'listings' %}" class="btn btn-light mb-4">Retour aux annonces</a>
       <div class="row">
         <div class="col-md-9">
           <!-- Home Main Image -->
-          <img src="{{ listing.photo_main.url }}" alt="" class="img-main img-fluid mb-3">
+          <div class="img-main-container mb-3">
+            <a href="{{ listing.photo_main.url }}" data-lightbox="home-images" id="main-lightbox-link">
+              <img src="{{ listing.photo_main.url }}" alt="" class="img-main" id="main-image">
+            </a>
+          </div>
+          
           <!-- Thumbnails -->
-          <div class="row mb-5 thumbs">
+          <div class="thumbs-row mb-5">
             {% if listing.photo_1 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_1.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_1.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_1.url }}')">
+              <img src="{{ listing.photo_1.url }}" alt="">
             </div>
             {% endif %}
             {% if listing.photo_2 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_2.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_2.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_2.url }}')">
+              <img src="{{ listing.photo_2.url }}" alt="">
             </div>
             {% endif %}
             {% if listing.photo_3 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_3.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_3.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_3.url }}')">
+              <img src="{{ listing.photo_3.url }}" alt="">
             </div>
             {% endif %}
             {% if listing.photo_4 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_4.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_4.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_4.url }}')">
+              <img src="{{ listing.photo_4.url }}" alt="">
             </div>
             {% endif %}
             {% if listing.photo_5 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_5.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_5.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_5.url }}')">
+              <img src="{{ listing.photo_5.url }}" alt="">
             </div>
             {% endif %}
             {% if listing.photo_6 %}
-            <div class="col-md-2">
-              <a href="{{ listing.photo_6.url }}" data-lightbox="home-images">
-                <img src="{{ listing.photo_6.url }}" alt="" class="img-fluid">
-              </a>
+            <div class="thumb-item" onclick="swapImage('{{ listing.photo_6.url }}')">
+              <img src="{{ listing.photo_6.url }}" alt="">
             </div>
             {% endif %}
           </div>
@@ -95,15 +88,15 @@
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-money-bill-alt"></i> Asking Price:
+                  <i class="fas fa-money-bill-alt"></i> Prix demandé:
                   <span class="float-right">${{ listing.price | intcomma }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-bed"></i> Bedrooms:
+                  <i class="fas fa-bed"></i> Chambres:
                   <span class="float-right">{{ listing.bedrooms }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-bath"></i> Bathrooms:
+                  <i class="fas fa-bath"></i> Salles de bain:
                   <span class="float-right">{{ listing.bathrooms }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
@@ -116,20 +109,20 @@
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-th-large"></i> Square Feet:
+                  <i class="fas fa-th-large"></i> Pieds carrés:
                   <span class="float-right">{{ listing.sqft }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-square"></i> Lot Size:
+                  <i class="fas fa-square"></i> Taille du lot:
                   <span class="float-right">{{ listing.lot_size }} Acres
                   </span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-calendar"></i> Listing Date:
+                  <i class="fas fa-calendar"></i> Date d'inscription:
                   <span class="float-right">{{ listing.list_date }}</span>
                 </li>
                 <li class="list-group-item text-secondary">
-                  <i class="fas fa-bed"></i> Realtor:
+                  <i class="fas fa-bed"></i> Agent immobilier:
                   <span class="float-right">{{ listing.realtor }}
                   </span>
                 </li>
@@ -142,7 +135,10 @@
           <!-- Description -->
           <div class="row mb-5">
             <div class="col-md-12">
-                {{ listing.description }}
+                <div class="description-card">
+                   <h3>Description de la propriété</h3>
+                   <p>{{ listing.description }}</p>
+                </div>
             </div>
           </div>
         </div>
@@ -150,12 +146,43 @@
           <div class="card mb-3">
             <img class="card-img-top" src="{{ listing.realtor.photo.url }}" alt="">
             <div class="card-body">
-              <h5 class="card-title">Property Realtor</h5>
+              <h5 class="card-title">Agent immobilier</h5>
               <h6 class="text-secondary">{{ listing.realtor }}</h6>
             </div>
           </div>
-          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Make An Inquiry</button>
+          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Faire une demande</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Listings -->
+  <section id="related-listings" class="py-4 bg-light">
+    <div class="container">
+      <h3 class="text-center mb-4">Annonces similaires</h3>
+      <div class="row">
+        {% if related_listings %}
+          <div class="col-md-12">
+            <ul class="list-group">
+              {% for listing in related_listings %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center">
+                    <img src="{{ listing.photo_main.url }}" alt="{{ listing.title }}" class="img-thumbnail mr-3" style="width: 80px; height: 60px; object-fit: cover;">
+                    <div>
+                      <h5 class="mb-0"><a href="{% url 'listing' listing.id %}">{{ listing.title }}</a></h5>
+                      <small class="text-muted">{{ listing.city }} {{ listing.state }}</small>
+                    </div>
+                  </div>
+                  <span class="badge badge-primary badge-pill">${{ listing.price | intcomma }}</span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% else %}
+          <div class="col-md-12 text-center">
+            <p>Aucune annonce similaire disponible</p>
+          </div>
+        {% endif %}
       </div>
     </div>
   </section>
@@ -165,7 +192,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="inquiryModalLabel">Make An Inquiry</h5>
+          <h5 class="modal-title" id="inquiryModalLabel">Faire une demande</h5>
           <button type="button" class="close" data-dismiss="modal">
             <span>&times;</span>
           </button>
@@ -181,11 +208,11 @@
             <input type="hidden" name="realtor_email" value="{{ listing.realtor.email }}">
             <input type="hidden" name="listing_id" value="{{ listing.id }}">
             <div class="form-group">
-              <label for="property_name" class="col-form-label">Property:</label>
-              <input type="text" name="listing" class="form-control" value="{{ listing.title }}">
+              <label for="property_name" class="col-form-label">Propriété:</label>
+              <input type="text" name="listing" class="form-control" value="{{ listing.title }}" readonly>
             </div>
             <div class="form-group">
-              <label for="name" class="col-form-label">Name:</label>
+              <label for="name" class="col-form-label">Nom:</label>
               <input type="text" name="name" class="form-control" {% if user.is_authenticated %} value="{{ user.first_name }} {{ user.last_name }}" {% endif %} required>
             </div>
             <div class="form-group">
@@ -193,7 +220,7 @@
               <input type="email" name="email" class="form-control" {% if user.is_authenticated %} value="{{ user.email }}" {% endif %} required>
             </div>
             <div class="form-group">
-              <label for="phone" class="col-form-label">Phone:</label>
+              <label for="phone" class="col-form-label">Téléphone:</label>
               <input type="text" name="phone" class="form-control">
             </div>
             <div class="form-group">
@@ -201,10 +228,17 @@
               <textarea name="message" class="form-control"></textarea>
             </div>
             <hr>
-            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+            <input type="submit" value="Envoyer" class="btn btn-block btn-secondary">
           </form>
         </div>
       </div>
     </div>
   </div>
+
+<script>
+  function swapImage(url) {
+    document.getElementById('main-image').src = url;
+    document.getElementById('main-lightbox-link').href = url;
+  }
+</script>
 {% endblock %}

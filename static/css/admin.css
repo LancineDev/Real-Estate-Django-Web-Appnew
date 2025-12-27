@@ -1,0 +1,98 @@
+/* Modern Admin Theme (French) */
+:root {
+  --admin-primary: #4c1d95;
+  --admin-secondary: #3b82f6;
+  --admin-accent: #f59e0b;
+  --admin-bg: #f7f9fa;
+  --admin-text: #333;
+}
+
+#header {
+  height: 58px;
+  background: linear-gradient(90deg, var(--admin-primary), var(--admin-secondary));
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+#branding h1 {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+a:link,
+a:visited {
+  color: var(--admin-secondary);
+}
+
+a:focus,
+a:hover {
+  color: var(--admin-accent);
+}
+
+div.breadcrumbs {
+  background: #e6f3f3;
+  color: var(--admin-secondary);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+div.breadcrumbs a {
+  color: var(--admin-secondary);
+}
+
+/* Modules / Cards */
+.module {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  background: #fff;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+  background: var(--admin-secondary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Buttons */
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input,
+a.button {
+  background: var(--admin-primary);
+  color: #fff;
+  border-radius: 6px;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.button:hover,
+input[type=submit]:hover,
+input[type=button]:hover,
+.submit-row input:hover,
+a.button:hover {
+  background: var(--admin-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+/* Tables */
+.module table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.module table thead th {
+  background: #f0f7f7;
+}
+
+/* Forms */
+fieldset.module.aligned,
+.aligned .form-row {
+  background: #fff;
+  border-radius: 8px;
+}

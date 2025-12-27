@@ -22,7 +22,7 @@ def contact(request):
       user_id = request.user.id
       has_contacted = Contact.objects.all().filter(listing_id=listing_id, user_id=user_id)
       if has_contacted:
-        messages.error(request, 'You have already made an inquiry for this listing')
+        messages.error(request, 'Vous avez déjà fait une demande pour cette annonce')
         return redirect('/listings/'+listing_id)
 
     contact = Contact(listing=listing, listing_id=listing_id, name=name, email=email, phone=phone, message=message, user_id=user_id )
@@ -30,15 +30,15 @@ def contact(request):
     contact.save()
 
     # Send email to property realtor (with admin fallback)
-    subject = 'Property Listing Inquiry'
+    subject = 'Demande de renseignement immobilier'
     body = (
-      'There has been an inquiry for ' + listing + '\n' +
-      'Details:\n' +
-      'Name: ' + name + '\n' +
-      'Email: ' + sender_email + '\n' +
-      'Phone: ' + phone + '\n' +
-      'Message: ' + message + '\n' +
-      'Listing ID: ' + listing_id
+      'Il y a eu une demande pour ' + listing + '\n' +
+      'Détails :\n' +
+      'Nom : ' + name + '\n' +
+      'Email : ' + sender_email + '\n' +
+      'Téléphone : ' + phone + '\n' +
+      'Message : ' + message + '\n' +
+      'ID de l\'annonce : ' + listing_id
     )
 
     # Choose recipient: realtor if available, else admin
@@ -61,24 +61,24 @@ def contact(request):
     try:
       email_message.send(fail_silently=False)
       if used_admin_fallback_initial:
-        messages.success(request, 'Your inquiry was sent to the site admin (realtor email unavailable).')
+        messages.success(request, 'Votre demande a été envoyée à l\'administrateur du site (email de l\'agent indisponible).')
       else:
-        messages.success(request, 'Your request has been submitted, a realtor will get back to you soon')
+        messages.success(request, 'Votre demande a été soumise, un agent vous contactera bientôt')
     except Exception as e:
       # If sending to realtor failed, try admin fallback once
       if not used_admin_fallback_initial:
         try:
           EmailMessage(
             subject,
-            body + '\n\n[FALLBACK] Original send failed, delivered to admin.',
+            body + '\n\n[FALLBACK] Échec de l\'envoi original, livré à l\'admin.',
             settings.DEFAULT_FROM_EMAIL,
             [admin_email],
             reply_to=[sender_email]
           ).send(fail_silently=False)
-          messages.success(request, 'Your inquiry was sent to the site admin (realtor email delivery failed).')
+          messages.success(request, 'Votre demande a été envoyée à l\'administrateur du site (échec de l\'envoi à l\'agent).')
         except Exception as e2:
-          messages.error(request, 'Could not send email to realtor or admin: ' + str(e2))
+          messages.error(request, 'Impossible d\'envoyer un email à l\'agent ou à l\'administrateur : ' + str(e2))
       else:
-        messages.error(request, 'Could not send email to admin: ' + str(e))
+        messages.error(request, 'Impossible d\'envoyer un email à l\'administrateur : ' + str(e))
 
     return redirect('/listings/'+listing_id)

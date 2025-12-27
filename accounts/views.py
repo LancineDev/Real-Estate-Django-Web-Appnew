@@ -17,11 +17,11 @@ def register(request):
     if password == password2:
       # Check username
       if User.objects.filter(username=username).exists():
-        messages.error(request, 'That username is taken')
+        messages.error(request, 'Ce nom d\'utilisateur est déjà pris')
         return redirect('register')
       else:
         if User.objects.filter(email=email).exists():
-          messages.error(request, 'That email is being used')
+          messages.error(request, 'Cet email est déjà utilisé')
           return redirect('register')
         else:
           # Looks good
@@ -31,10 +31,10 @@ def register(request):
           # messages.success(request, 'You are now logged in')
           # return redirect('index')
           user.save()
-          messages.success(request, 'You are now registered and can log in')
+          messages.success(request, 'Vous êtes maintenant inscrit et pouvez vous connecter')
           return redirect('login')
     else:
-      messages.error(request, 'Passwords do not match')
+      messages.error(request, 'Les mots de passe ne correspondent pas')
       return redirect('register')
   else:
     return render(request, 'accounts/register.html')
@@ -48,10 +48,10 @@ def login(request):
 
     if user is not None:
       auth.login(request, user)
-      messages.success(request, 'You are now logged in')
+      messages.success(request, 'Vous êtes maintenant connecté')
       return redirect('dashboard')
     else:
-      messages.error(request, 'Invalid credentials')
+      messages.error(request, 'Identifiants invalides')
       return redirect('login')
   else:
     return render(request, 'accounts/login.html')
@@ -59,7 +59,7 @@ def login(request):
 def logout(request):
   if request.method == 'POST':
     auth.logout(request)
-    messages.success(request, 'You are now logged out')
+    messages.success(request, 'Vous êtes maintenant déconnecté')
     return redirect('index')
 
 def dashboard(request):

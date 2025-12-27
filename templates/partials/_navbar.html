@@ -17,7 +17,7 @@
               class="nav-item mr-3"
             {% endif %}
           >
-            <a class="nav-link" href="{% url 'index' %}">Home</a>
+            <a class="nav-link" href="{% url 'index' %}">Accueil</a>
           </li>
           <li
             {% if 'about' in request.path %}
@@ -26,7 +26,7 @@
               class="nav-item mr-3"
             {% endif %}
           >
-            <a class="nav-link" href="{% url 'about' %}">About</a>
+            <a class="nav-link" href="{% url 'about' %}">À propos</a>
           </li>
           <li
             {% if 'listings' in request.path %}
@@ -35,7 +35,7 @@
               class="nav-item mr-3"
             {% endif %}
           >
-            <a class="nav-link" href="{% url 'listings' %}">Featured Listings</a>
+            <a class="nav-link" href="{% url 'listings' %}">Annonces en vedette</a>
           </li>
         </ul>
 
@@ -49,11 +49,11 @@
             {% endif %}
             >
               <a class="nav-link" href="{% url 'dashboard' %}">
-               Welcome {{ user.username }} (Dashboard)</a>
+               Bienvenue {{ user.username }} (Tableau de bord)</a>
             </li>
             <li class="nav-item mr-3">
               <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
-                <i class="fas fa-sign-out-alt"></i> Logout
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
               </a>
               <form action="{% url 'logout' %}" method="POST" id="logout">
                 {% csrf_token %}
@@ -69,7 +69,7 @@
             {% endif %}
             >
               <a class="nav-link" href="{% url 'register' %}">
-                <i class="fas fa-user-plus"></i> Register</a>
+                <i class="fas fa-user-plus"></i> S'inscrire</a>
             </li>
             <li
             {% if 'login' in request.path %}
@@ -81,7 +81,7 @@
               <a class="nav-link" href="{% url 'login' %}">
                 <i class="fas fa-sign-in-alt"></i>
 
-                Login</a>
+                Connexion</a>
             </li>
           {% endif %}
         </ul>
